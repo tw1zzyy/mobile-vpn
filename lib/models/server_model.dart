@@ -24,15 +24,29 @@ class ServerModel {
     required this.presharedKey,
   });
 
-  VpnConfig toVpnConfig() => VpnConfig(
-    id: 'server_$id',
-    name: '$flag $country',
-    privateKey: privateKey,
-    address: address,
-    dns: dns,
-    publicKey: publicKey,
-    presharedKey: presharedKey,
-    endpoint: endpoint,
-    allowedIPs: '0.0.0.0/0, ::/0',
-  );
+  factory ServerModel.fromJson(Map<String, dynamic> json) {
+    return ServerModel(
+      id: json['id']?.toString() ?? '',
+      flag: json['flag'] ?? '🌐',
+      country: json['country'] ?? 'Unknown',
+      endpoint: json['endpoint'] ?? '',
+      publicKey: json['public_key'] ?? json['publicKey'] ?? '',
+      privateKey: json['private_key'] ?? json['privateKey'] ?? '',
+      address: json['address'] ?? '',
+      dns: json['dns'] ?? '1.1.1.1',
+      presharedKey: json['preshared_key'] ?? json['presharedKey'] ?? '',
+    );
+  }
+
+  VpnConfig toVpnConfig() {
+    return VpnConfig(
+      name: country, // Use the country name as the tunnel name
+      address: address,
+      dns: dns,
+      publicKey: publicKey,
+      privateKey: privateKey,
+      endpoint: endpoint,
+      presharedKey: presharedKey, id: '',
+    );
+  }
 }

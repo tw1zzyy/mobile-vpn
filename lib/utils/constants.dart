@@ -9,6 +9,10 @@ class AppConstants {
   static const String appVersion = '1.0.0';
   static const String ipApiUrl = 'https://api.ipify.org?format=json';
 
+  //for backend
+  static const String baseUrl = 'http://10.0.2.2:8000/api/v1';
+  static const String dummyDeviceId = 'test-device-uuid-123';
+
   static final List<ServerModel> freeServers = [
     const ServerModel(
       id: '1',

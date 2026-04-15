@@ -65,9 +65,11 @@ class ServersScreen extends StatelessWidget {
                 ...serverProv.servers.map(
                   (server) => ServerTile(
                     server: server,
-                    isActive: serverProv.activeServerId == server.id,
+                    isActive: serverProv.activeServerId ==
+                        server.id, // This now works because of Fix #2
                     onTap: () {
-                      serverProv.setActive(server.id);
+                      serverProv.setActive(
+                          server); // FIX: Pass the whole 'server' object, not 'server.id'
                       configProv.setActive(null);
                     },
                   ),

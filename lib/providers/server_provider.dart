@@ -1,25 +1,35 @@
-// lib/providers/server_provider.dart
 import 'package:flutter/material.dart';
 import '../models/server_model.dart';
-import '../utils/constants.dart';
+import '../services/ip_service.dart'; // Use the correct name here
 
 class ServerProvider extends ChangeNotifier {
-  final List<ServerModel> _servers = AppConstants.freeServers;
-  String? _activeServerId;
+  List<ServerModel> _servers = [];
+  ServerModel? _activeServer; // Tracks the selected server
+  bool _isLoading = false;
 
-  List<ServerModel> get servers => List.unmodifiable(_servers);
-  String? get activeServerId => _activeServerId;
-  ServerModel? get activeServer => _activeServerId == null
-      ? null
-      : _servers.where((s) => s.id == _activeServerId).firstOrNull;
+  List<ServerModel> get servers => _servers;
+  ServerModel? get activeServer => _activeServer; // Fixes 'activeServer' error
+  bool get isLoading => _isLoading;
+  // Add this line right below your other getters:
+  String? get activeServerId => _activeServer?.id;
 
-  void setActive(String? id) {
-    _activeServerId = id;
+  Future<void> loadServers() async {
+    _isLoading = true;
+    notifyListeners();
+    _servers = await IpService.fetchServers();
+    _isLoading = false;
     notifyListeners();
   }
 
+  // Fixes 'setActive' error
+  void setActive(ServerModel server) {
+    _activeServer = server;
+    notifyListeners();
+  }
+
+  // Fixes 'clearActive' error
   void clearActive() {
-    _activeServerId = null;
+    _activeServer = null;
     notifyListeners();
   }
 }

@@ -17,6 +17,7 @@ void main() async {
   await configProvider.load();
 
   final serverProvider = ServerProvider();
+  await serverProvider.loadServers();
 
   runApp(
     MultiProvider(
